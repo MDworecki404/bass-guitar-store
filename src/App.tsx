@@ -66,22 +66,29 @@ const MainSection = styled.div`
   left: 0;
 
   .item {
-    transform: rotateX(90deg);
+    transform: rotateY(90deg);
     display: none;
-    background: #e0e0e0;
+    background: rgb(253, 253, 253);
+    transform-origin: left;
   }
 `;
 
 const App = () => {
   const ExploreShow = () => {
     gsap.to(".item", {
-      duration: 1,
-      rotationX: 0,
+      duration: 0.3,
+      rotationY: 0,
       display: "grid",
-      stagger: 0.1,
+      stagger: 0.3,
     });
     gsap.to(".explorebutton", {
+      duration: 0.3,
       zIndex: -1,
+      opacity: 0,
+    });
+    gsap.to(".logo", {
+      duration: 0.3,
+      opacity: 0,
     });
   };
 
@@ -91,7 +98,7 @@ const App = () => {
         <video autoPlay muted loop id="videoBG">
           <source src={background} />
         </video>
-        <p>Bass Guitar Store</p>
+        <p className="logo">Bass Guitar Store</p>
         <p className="exploreButton">
           <button className="explorebutton" onClick={ExploreShow}>
             Explore
