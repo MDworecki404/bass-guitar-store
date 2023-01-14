@@ -99,11 +99,20 @@ const ShoppingCart = styled.span`
   position: absolute;
   top: 2%;
   right: 2%;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   opacity: 0;
   z-index: 10000;
+  cursor: pointer;
 `;
-
+const ViewGuitar = styled.div`
+  width: 50vw;
+  height: 50vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: red;
+  z-index: 9999;
+`;
 const App = () => {
   const ExploreShow = () => {
     gsap.to(".item", {
@@ -128,6 +137,9 @@ const App = () => {
       duration: 0.3,
       opacity: 1,
     });
+  };
+  const ShowGuitar = () => {
+    return <ViewGuitar> XDDDDD</ViewGuitar>;
   };
   const guitar = (
     brand: string,
