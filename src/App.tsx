@@ -1,6 +1,6 @@
 import "./App.css";
 import styled from "styled-components";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import background from "./assets/background.mp4";
 import gsap from "gsap";
 
@@ -104,15 +104,27 @@ const ShoppingCart = styled.span`
   z-index: 10000;
   cursor: pointer;
 `;
-const ViewGuitar = styled.div`
-  width: 50vw;
-  height: 50vw;
+const Fade = styled.div`
+  width: 100vw;
+  height: 100vh;
   position: absolute;
-  top: 0;
-  left: 0;
-  background: red;
-  z-index: 9999;
+  background-color: #000000ba;
+  z-index: 99;
+  display: none;
 `;
+const ViewGuitar = styled.div`
+  width: 35vw;
+  height: 35vw;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  display: none;
+  z-index: 99999;
+  color: black;
+`;
+
 const App = () => {
   const ExploreShow = () => {
     gsap.to(".item", {
@@ -138,8 +150,35 @@ const App = () => {
       opacity: 1,
     });
   };
-  const ShowGuitar = () => {
-    return <ViewGuitar> XDDDDD</ViewGuitar>;
+  const [brandState, setBrandState] = useState("");
+  const brandRef = useRef<HTMLParagraphElement>(null);
+  const [imgState, setImgState] = useState("");
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [costState, setCostState] = useState("");
+  const costRef = useRef<HTMLParagraphElement>(null);
+  const ViewBoxShow = () => {
+    if (brandRef.current && imgRef.current && costRef.current) {
+      setBrandState(`${brandRef.current.textContent}`);
+      setImgState(`${imgRef.current?.src}`);
+      setCostState(`${costRef.current.textContent}`);
+    }
+  };
+  gsap.to(".fade", {
+    duration: 1,
+    display: "block",
+  });
+  gsap.to(".view-guitar", {
+    duration: 1,
+    display: "block",
+  });
+
+  const ViewBoxHide = () => {
+    gsap.to(".fade", {
+      display: "none",
+    });
+    gsap.to(".view-guitar", {
+      display: "none",
+    });
   };
   const guitar = (
     brand: string,
@@ -148,17 +187,29 @@ const App = () => {
     image: string
   ) => {
     return (
-      <GuitarBox>
-        <img src={image}></img>
-        <p>
+      <GuitarBox onClick={ViewBoxShow}>
+        <img ref={imgRef} src={image}></img>
+        <p ref={brandRef}>
           {brand} {model}
         </p>
-        <p>{cost} zł </p>
+        <p ref={costRef}>{cost} zł </p>
       </GuitarBox>
     );
   };
+
   return (
     <div className="App">
+      <Fade onClick={ViewBoxHide} className="fade">
+        <ViewGuitar className="view-guitar">
+          <div>
+            <img src={imgState} alt="bassguitar"></img>
+            <aside>
+              <p>{brandState}</p>
+              <p>{costState}</p>
+            </aside>
+          </div>
+        </ViewGuitar>
+      </Fade>
       <Header>
         <video autoPlay muted loop id="videoBG">
           <source src={background} />
